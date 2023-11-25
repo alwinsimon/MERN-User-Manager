@@ -5,6 +5,10 @@ import express from "express";
 
 import cookieParser from "cookie-parser";
 
+// Custom Authentication middleware from my npm package.
+// Reference: https://www.npmjs.com/package/base-auth-handler
+import { currentUser } from "base-auth-handler";
+
 // ===================== Importing necessary files =====================
 import userRoutes from "./routes/userRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
@@ -48,6 +52,10 @@ app.get("/health", (req, res) => {
   });
 });
 
+// Custom Authentication middleware from my npm package.
+// Reference: https://www.npmjs.com/package/base-auth-handler
+app.use(currentUser);
+
 //? ===================== Routes Configuration =====================
 app.use("/api/users", userRoutes);
 app.use("/api/admin", adminRoutes);
@@ -55,6 +63,5 @@ app.use("/api/admin", adminRoutes);
 //? ===================== Error handler middleware configuration =====================
 app.use(notFoundErrorHandler);
 app.use(errorHandler);
-
 
 export { app };
