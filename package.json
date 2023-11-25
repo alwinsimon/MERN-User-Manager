@@ -1,0 +1,32 @@
+{
+  "name": "MERN-User-Manager",
+  "version": "1.0.0",
+  "description": "A simple MERN Stack user management application.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm run dev --prefix frontend",
+    "dev": " concurrently \"npm run server\" \"npm run client\" "
+  },
+  "keywords": [],
+  "author": "Dr. Alwin Simon",
+  "license": "MIT",
+  "dependencies": {
+    "alwinsimon": "^1.0.1",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.3",
+    "multer": "^1.4.5-lts.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "nodemon": "^3.0.1"
+  }
+}
