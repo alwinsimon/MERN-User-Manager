@@ -3,8 +3,8 @@
 // ===================== Importing necessary modules/files =====================
 import asyncHandler from "express-async-handler";
 import AdminModel from "../models/adminModel.js";
-import generateAuthToken from "../utils/jwtHandlers/generateAuthToken.js";
-import destroyAuthToken from "../utils/jwtHandlers/destroyAuthToken.js";
+import generateAuthToken from "../utils/jwtHelpers/generateAuthToken.js";
+import destroyAuthToken from "../utils/jwtHelpers/destroyAuthToken.js";
 
 import {
   fetchAllUsers,
