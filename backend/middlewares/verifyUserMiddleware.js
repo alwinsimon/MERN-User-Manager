@@ -21,11 +21,15 @@ const verifyUser = asyncHandler( async (req, res, next) => {
 
             next(); // Proceed to next function as the user is authenticated as Admin
 
+        } else {
+            
+            res.status(401).send({message: 'Invalid User'});
+
         }
 
     } catch (error) {
         
-        res.status(401);
+        res.status(400);
 
         throw new Error(`User Authentication Failed - ${error.message}`);
 
