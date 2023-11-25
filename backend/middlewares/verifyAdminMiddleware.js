@@ -17,8 +17,6 @@ const verifyAdmin = asyncHandler( async (req, res, next) => {
         
             req.user = requestUser; // Set the request user with the user data fetched from the Db
 
-            console.log(req.user);
-
             next(); // Proceed to next function as the user is authenticated as Admin
 
         } else {
