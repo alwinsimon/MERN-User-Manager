@@ -10,8 +10,7 @@ import cookieParser from "cookie-parser";
 import { currentUser } from "base-auth-handler";
 
 // ===================== Importing necessary files =====================
-import userRoutes from "./routes/userRoutes.js";
-import adminRoutes from "./routes/adminRoutes.js";
+import v1APIs from "./routes/api-v1-routes.js";
 import {
   notFoundErrorHandler,
   errorHandler,
@@ -57,8 +56,8 @@ app.get("/health", (req, res) => {
 app.use(currentUser);
 
 //? ===================== Routes Configuration =====================
-app.use("/api/users", userRoutes);
-app.use("/api/admin", adminRoutes);
+// =====================V1 APIs Routes Configuration =================
+app.use("/api/v1", v1APIs);
 
 //? ===================== Error handler middleware configuration =====================
 app.use(notFoundErrorHandler);

@@ -7,7 +7,7 @@ import express from "express";
 // Reference: https://www.npmjs.com/package/base-auth-handler
 import { requireAuth } from "base-auth-handler";
 
-import verifyUser from "../middlewares/verifyUserMiddleware.js";
+import verifyUser from "../../middlewares/verifyUserMiddleware.js";
 
 import {
   authUser,
@@ -15,9 +15,9 @@ import {
   logoutUser,
   getUserProfile,
   updateUserProfile,
-} from "../controllers/userController.js";
+} from "../../controllers/userController.js";
 
-import { multerUploadUserProfile } from "../config/multerConfig.js";
+import { multerUploadUserProfile } from "../../config/multerConfig.js";
 
 // ===================== Configuring Express Router =====================
 const router = express.Router();

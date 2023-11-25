@@ -7,9 +7,7 @@ import express from "express";
 // Reference: https://www.npmjs.com/package/base-auth-handler
 import { requireAuth } from "base-auth-handler";
 
-import verifyAdmin from "../middlewares/verifyAdminMiddleware.js";
-
-
+import verifyAdmin from "../../middlewares/verifyAdminMiddleware.js";
 
 // ===================== Configuring Express Router =====================
 const router = express.Router();
@@ -23,7 +21,7 @@ import {
   getAllUsers,
   deleteUserData,
   updateUserData,
-} from "../controllers/adminController.js";
+} from "../../controllers/adminController.js";
 
 //? =============================== Routes ===============================
 
