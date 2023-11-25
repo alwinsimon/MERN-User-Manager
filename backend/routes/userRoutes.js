@@ -2,7 +2,7 @@
 
 // ===================== Importing necessary modules/files =====================
 import express from 'express';
-import authenticateUser from '../middlewares/userAuthMiddleware.js';
+import authenticateUser from '../middlewares/verifyUserMiddleware.js';
 
 
 
