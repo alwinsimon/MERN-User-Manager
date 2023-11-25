@@ -1,75 +1,50 @@
 //* ===================================================== Server Configuration =====================================================
 
-// ===================== Importing necessary modules =====================
-import express from "express";
-
 // ===================== Configuring Environment Variables =====================
 import dotenv from "dotenv";
 dotenv.config();
 
-import cookieParser from "cookie-parser";
-
-// ===================== Importing necessary files =====================
-import connectDB from "./config/db.js";
-import userRoutes from "./routes/userRoutes.js";
-import adminRoutes from "./routes/adminRoutes.js";
-import {
-  notFoundErrorHandler,
-  errorHandler,
-} from "./middlewares/errorMiddleware.js";
-
-// Server port configuration
-const PORT = process.env.PORT || 5000;
-
 // Express app configuration
-const app = express();
+import { app } from "./app.js";
 
-// ===================== Database Configuration =====================
-connectDB();
+import connectDB from "./config/dbConfig.js";
 
-// ===================== Setting Static Folder =====================
-app.use(express.static("backend/Public"));
+const startServer = () => {
+  // Check if ENV Variables exist
+  if (!process.env.APPLICATION_NAME) {
+    throw new Error(`APPLICATION_NAME must be defined in ENV !!!`);
+  }
+  if (!process.env.PORT) {
+    throw new Error(`PORT must be defined in ENV !!!`);
+  }
+  if (!process.env.NODE_ENV) {
+    throw new Error(`NODE_ENV must be defined in ENV !!!`);
+  }
+  if (!process.env.JWT_KEY) {
+    throw new Error(`JWT_KEY must be defined in ENV !!!`);
+  }
+  if (!process.env.JWT_TOKEN_DURATION) {
+    throw new Error(`JWT_TOKEN_DURATION must be defined in ENV !!!`);
+  }
+  if (!process.env.MONGO_DB_URI) {
+    throw new Error(`MONGO_DB_URI must be defined in ENV !!!`);
+  }
+  if (!process.env.ADMIN_REGISTRATION_KEY) {
+    throw new Error(`ADMIN_REGISTRATION_KEY must be defined in ENV !!!`);
+  }
+  // Server port configuration
+  const PORT = process.env.PORT || 5000;
 
-// ========================================== Middleware's ==========================================
+  // ===================== Database Configuration =====================
+  connectDB();
 
-app.use(cookieParser()); // CookieParser Middleware
-
-app.use(express.json()); // Body parser Middleware from Express
-
-app.use(express.urlencoded({ extended: true })); // Form Data parser Middleware from Express
-
-//? ===================== Application Home Route =====================
-app.get("/health", (req, res) => {
-  const currentDate = new Date();
-  const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    timeZone: "UTC",
-  };
-  const formattedDate = currentDate.toLocaleString("en-US", options);
-
-  res.status(200).json({
-    status: `${process.env.APPLICATION_NAME} and Systems are Up & Running.`,
-    dateTime: formattedDate,
+  //NOTE ===================== Starting Server =====================
+  app.listen(PORT, () => {
+    console.log(
+      `${process.env.APPLICATION_NAME} SERVER is LIVE & Listening on PORT ${PORT} !!!`
+    );
   });
-});
+};
 
-//? ===================== Routes Configuration =====================
-app.use("/api/users", userRoutes);
-app.use("/api/admin", adminRoutes);
-
-//? ===================== Error handler middleware configuration =====================
-app.use(notFoundErrorHandler);
-app.use(errorHandler);
-
-//NOTE ===================== Starting Server =====================
-app.listen(PORT, () => {
-  console.log(
-    `${process.env.APPLICATION_NAME} SERVER is LIVE & Listening on PORT ${PORT}.........`
-  );
-});
+// Starting server
+startServer();
