@@ -5,10 +5,11 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node backend/server.js",
+    "start": "npx alwinsimon && node backend/server.js",
     "server": "nodemon backend/server.js",
     "client": "npm run dev --prefix frontend",
-    "dev": " concurrently \"npm run server\" \"npm run client\" "
+    "dev": " concurrently \"npm run server\" \"npm run client\" ",
+    "app": " concurrently \"npm run start\" \"npm run client\" "
   },
   "keywords": [],
   "author": "Dr. Alwin Simon",
