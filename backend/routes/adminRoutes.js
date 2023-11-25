@@ -7,7 +7,7 @@ import express from "express";
 // Reference: https://www.npmjs.com/package/base-auth-handler
 import { requireAuth } from "base-auth-handler";
 
-import verifyAdmin from "../middlewares/adminAuthMiddleware.js";
+import verifyAdmin from "../middlewares/verifyAdminMiddleware.js";
 
 
 
