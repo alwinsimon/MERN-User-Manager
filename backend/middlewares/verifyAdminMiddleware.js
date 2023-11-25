@@ -27,7 +27,7 @@ const verifyAdmin = asyncHandler( async (req, res, next) => {
         
         res.status(401);
 
-        throw new Error(`Authentication Failed - ${error.message}`);
+        throw new Error(`Admin Authentication Failed - ${error.message}`);
 
     }
 
