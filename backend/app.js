@@ -11,6 +11,10 @@ import { currentUser } from "base-auth-handler";
 
 // ===================== Importing necessary files =====================
 import v1APIs from "./routes/api-v1-routes.js";
+
+import apiSpeedLimiter from "./config/api-rate-limiter/api-speed-limiter.js";
+import apiRateLimiter from "./config/api-rate-limiter/api-rate-limiter.js";
+
 import {
   notFoundErrorHandler,
   errorHandler,
@@ -18,6 +22,13 @@ import {
 
 // Express app configuration
 const app = express();
+
+// ===================== Setting Rate Limit for API Calls =====================
+// Speed limiter for api calls.
+app.use(apiSpeedLimiter);
+
+// Rate limiter for api calls.
+app.use(apiRateLimiter);
 
 // ===================== Setting Static Folder =====================
 app.use(express.static("backend/Public"));
