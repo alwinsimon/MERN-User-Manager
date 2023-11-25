@@ -10,7 +10,7 @@ import {
   fetchAllUsers,
   deleteUser,
   updateUser,
-} from "../utils/Helpers/adminHelpers.js";
+} from "../utils/adminHelpers.js";
 
 const authAdmin = asyncHandler(async (req, res) => {
   /*
