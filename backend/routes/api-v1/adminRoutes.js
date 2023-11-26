@@ -31,7 +31,10 @@ router.post("/", registerAdmin);
 
 router.post("/auth", authAdmin);
 
-router.post("/logout", logoutAdmin);
+router.post("/logout", requireAuth, logoutAdmin);
+
+
+//* ==================== Admin Profile Routes ====================
 
 router
   .route("/profile")
@@ -39,9 +42,12 @@ router
   .put(requireAuth, verifyAdmin, updateAdminProfile);
 // In the above line, the route is same, above line will use the specified controller according to the type of the request
 
+
+//* ==================== User Management Routes ====================
+
 router.post("/get-users", requireAuth, verifyAdmin, getAllUsers);
 
-router.post("/delete-user", requireAuth, verifyAdmin, deleteUserData);
+router.delete("/delete-user", requireAuth, verifyAdmin, deleteUserData);
 
 router.put("/update-user", requireAuth, verifyAdmin, updateUserData);
 
