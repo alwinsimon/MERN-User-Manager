@@ -15,6 +15,7 @@ import v1APIs from "./routes/api-v1-routes.js";
 
 import apiSpeedLimiter from "./config/api-rate-limiter/api-speed-limiter.js";
 import apiRateLimiter from "./config/api-rate-limiter/api-rate-limiter.js";
+import { getServerHealth } from "./controllers/generalController.js";
 
 // Express app configuration
 const app = express();
@@ -37,32 +38,15 @@ app.use(express.json()); // Body parser Middleware from Express
 
 app.use(express.urlencoded({ extended: true })); // Form Data parser Middleware from Express
 
-//? ===================== Application Home Route =====================
-app.get("/health", (req, res) => {
-  const currentDate = new Date();
-  const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    timeZone: "UTC",
-  };
-  const formattedDate = currentDate.toLocaleString("en-US", options);
+//? ===================== General Routes =====================
+app.get("/health", getServerHealth); // Get server health information
 
-  res.status(200).json({
-    status: `${process.env.APPLICATION_NAME} and Systems are Up & Running.`,
-    dateTime: formattedDate,
-  });
-});
 
 // Auth middleware to parse req.cookie and add req.currrentUser if a valid token is provided
 app.use(currentUser);
 
 
-//? ===================== Routes Configuration =====================
+//? ===================== API Routes Configuration =====================
 // =====================V1 APIs Routes Configuration =================
 app.use("/api/v1", v1APIs);
 
