@@ -1,6 +1,8 @@
 import multer from "multer";
 import path from "path";
 
+import { BadRequestError } from "base-error-handler";
+
 
 const storage = multer.diskStorage({
 
@@ -19,7 +21,7 @@ const fileFilter = (req, file, cb) => {
 
   } else {
 
-    cb(new Error("Only images are allowed!"), false);
+    cb(new BadRequestError("Only images are allowed!"), false);
 
   }
 

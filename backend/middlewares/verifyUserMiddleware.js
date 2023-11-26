@@ -1,5 +1,7 @@
 //? ===================================================== User Authentication Middleware =====================================================
 
+import { BadRequestError } from "base-error-handler";
+
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 
@@ -7,30 +9,20 @@ import User from '../models/userModel.js';
 
 const verifyUser = asyncHandler( async (req, res, next) => {
 
-    try {
-            
-        const decodedJwtPayload = req.currentUser;
+    const decodedJwtPayload = req.currentUser;
 
-        // Search the Db with the userId obtained after decoding jwt payload to Verify the userId claimed by JWT Payload is valid.
-        const requestUser = await User.findById(decodedJwtPayload.id).select('-password');
+    // Search the Db with the userId obtained after decoding jwt payload to Verify the userId claimed by JWT Payload is valid.
+    const requestUser = await User.findById(decodedJwtPayload.id).select('-password');
 
-        if (requestUser) {
+    if (requestUser) {
+    
+        req.user = requestUser; // Set the request user with the user data fetched from the Db
+
+        next(); // Proceed to next function as the user is authenticated as Admin
+
+    } else {
         
-            req.user = requestUser; // Set the request user with the user data fetched from the Db
-
-            next(); // Proceed to next function as the user is authenticated as Admin
-
-        } else {
-            
-            res.status(401).send({message: 'Invalid User'});
-
-        }
-
-    } catch (error) {
-        
-        res.status(400);
-
-        throw new Error(`User Authentication Failed - ${error.message}`);
+        throw new BadRequestError("Invalid User - User Authentication Failed.");
 
     }
 
