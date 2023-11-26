@@ -2,6 +2,8 @@
 
 // ===================== Importing necessary modules/files =====================
 import asyncHandler from "express-async-handler";
+import { BadRequestError } from "base-error-handler";
+
 import User from "../models/userModel.js";
 import generateAuthToken from "../utils/jwtHelpers/generateAuthToken.js";
 import destroyAuthToken from "../utils/jwtHelpers/destroyAuthToken.js";
@@ -9,7 +11,7 @@ import destroyAuthToken from "../utils/jwtHelpers/destroyAuthToken.js";
 const authUser = asyncHandler(async (req, res) => {
   /*
      # Desc: Auth user/set token
-     # Route: POST /api/users/auth
+     # Route: POST /api/v1/user/auth
      # Access: PUBLIC
     */
 
@@ -17,12 +19,7 @@ const authUser = asyncHandler(async (req, res) => {
 
   if (!email || !password) {
     // If email or password is empty, return error
-
-    res.status(401);
-
-    throw new Error(
-      "Email or Password is missing in the request, User authentication failed."
-    );
+    throw new BadRequestError("Email or Password is missing in the request - User authentication failed.");
   }
 
   // Find the user in Db with the email and password
@@ -54,16 +51,14 @@ const authUser = asyncHandler(async (req, res) => {
   if (!user || !passwordValid) {
     // If user or user password is not valid, send error back
 
-    res.status(401);
-
-    throw new Error("Invalid Email or Password, User authentication failed.");
+    throw new BadRequestError("Invalid Email or Password - User authentication failed.");
   }
 });
 
 const registerUser = asyncHandler(async (req, res) => {
   /*
      # Desc: Register new user
-     # Route: POST /api/users/auth
+     # Route: POST /api/v1/user/auth
      # Access: PUBLIC
     */
 
@@ -74,9 +69,8 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // If the user already exists, throw an error
   if (userExists) {
-    res.status(400);
 
-    throw new Error("User already exists");
+    throw new BadRequestError("User already registered - Sign-Up Failed.");
   }
 
   // Store the user data to DB if the user dosen't exist already.
@@ -100,16 +94,14 @@ const registerUser = asyncHandler(async (req, res) => {
   } else {
     // If user was NOT Created, send error back
 
-    res.status(400);
-
-    throw new Error("Invalid user data, User registration failed.");
+    throw new BadRequestError("Invalid User data - User registration failed.");
   }
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
   /*
      # Desc: Logout user / clear cookie
-     # Route: POST /api/users/logout
+     # Route: POST /api/v1/user/logout
      # Access: PUBLIC
     */
 
@@ -121,7 +113,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 const getUserProfile = asyncHandler(async (req, res) => {
   /*
      # Desc: Get user profile
-     # Route: GET /api/users/profile
+     # Route: GET /api/v1/user/profile
      # Access: PRIVATE
     */
 
@@ -137,7 +129,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async (req, res) => {
   /*
      # Desc: Update user profile
-     # Route: PUT /api/users/profile
+     # Route: PUT /api/v1/user/profile
      # Access: PRIVATE
     */
 
@@ -167,9 +159,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       profileImageName: updatedUserData.profileImageName,
     });
   } else {
-    res.status(404);
 
-    throw new Error("Requested User not found.");
+    throw new BadRequestError("User not found.");
   }
 });
 
