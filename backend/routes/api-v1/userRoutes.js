@@ -30,7 +30,7 @@ router.post("/", registerUser);
 
 router.post("/auth", authUser);
 
-router.post("/logout", logoutUser);
+router.post("/logout", requireAuth, logoutUser);
 
 //* ==================== User Profile Routes ====================
 
