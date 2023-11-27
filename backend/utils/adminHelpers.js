@@ -12,20 +12,49 @@ const fetchAllUsers = async () => {
   }
 };
 
-const deleteUser = async (userId) => {
+const blockUserHelper = async (userId) => {
   try {
-    // Attempt to delete the user by their _id
-    const deletedUser = await User.findByIdAndDelete(userId);
+    // Attempt to find the user by their _id
+    const user = await User.findById(userId);
 
-    if (!deletedUser) {
+    if (!user) {
       // If the user wasn't found (already deleted or never existed), return a status indicating failure
       return { success: false, message: "User not found." };
     }
 
-    // If the user was successfully deleted, return a status indicating success
-    return { success: true, message: "User deleted successfully." };
+    user.blocked = true;
+    // Save the updated user data
+    await user.save();
+
+    // If the user was successfully blocked, return a status indicating success
+    return { success: true, message: "User blocked successfully." };
+
   } catch (error) {
-    console.error("Error deleting user:", error);
+    console.error("Error blocking user:", error);
+
+    throw error;
+  }
+};
+
+const unBlockUserHelper = async (userId) => {
+  try {
+    // Attempt to find the user by their _id
+    const user = await User.findById(userId);
+
+    if (!user) {
+      // If the user wasn't found (already deleted or never existed), return a status indicating failure
+      return { success: false, message: "User not found." };
+    }
+
+    user.blocked = false;
+    // Save the updated user data
+    await user.save();
+
+    // If the user was successfully unblocked, return a status indicating success
+    return { success: true, message: "User Un-blocked successfully." };
+
+  } catch (error) {
+    console.error("Error Un-blocking user:", error);
 
     throw error;
   }
@@ -54,4 +83,4 @@ const updateUser = async (userData) => {
   }
 };
 
-export { fetchAllUsers, deleteUser, updateUser };
+export { fetchAllUsers, blockUserHelper, unBlockUserHelper, updateUser };
