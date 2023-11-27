@@ -31,7 +31,7 @@ router.post("/", registerAdmin);
 
 router.post("/auth", authAdmin);
 
-router.post("/logout", requireAuth, logoutAdmin);
+router.post("/logout", logoutAdmin);
 
 
 //* ==================== Admin Profile Routes ====================
