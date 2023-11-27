@@ -19,8 +19,9 @@ import {
   getAdminProfile,
   updateAdminProfile,
   getAllUsers,
-  deleteUserData,
   updateUserData,
+  blockUser,
+  unBlockUser
 } from "../../controllers/adminController.js";
 
 //? =============================== Routes ===============================
@@ -31,7 +32,7 @@ router.post("/", registerAdmin);
 
 router.post("/auth", authAdmin);
 
-router.post("/logout", requireAuth, logoutAdmin);
+router.post("/logout", logoutAdmin);
 
 
 //* ==================== Admin Profile Routes ====================
@@ -47,7 +48,9 @@ router
 
 router.post("/get-users", requireAuth, verifyAdmin, getAllUsers);
 
-router.delete("/delete-user", requireAuth, verifyAdmin, deleteUserData);
+router.patch("/block-user", requireAuth, verifyAdmin, blockUser);
+
+router.patch("/unblock-user", requireAuth, verifyAdmin, unBlockUser);
 
 router.put("/update-user", requireAuth, verifyAdmin, updateUserData);
 

@@ -32,8 +32,16 @@ const authUser = asyncHandler(async (req, res) => {
   }
 
   if (passwordValid) {
-    // If user is created, send response back with jwt token
 
+    // If password verified, check user-blocked status. send response back with jwt token
+    const blockedUser = user.isBlocked();
+    
+    if (blockedUser) {
+      throw new BadRequestError("Access Blocked - Contact Server Admin.");
+    }
+
+    // If password verified and user is not-blocked, send response back with jwt token
+    
     generateAuthToken(res, user._id, user.email); // Middleware to Generate token and send it back in response object
 
     let registeredUserData = {

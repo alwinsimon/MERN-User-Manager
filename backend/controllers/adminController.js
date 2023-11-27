@@ -11,8 +11,9 @@ import destroyAuthToken from "../utils/jwtHelpers/destroyAuthToken.js";
 
 import {
   fetchAllUsers,
-  deleteUser,
   updateUser,
+  blockUserHelper,
+  unBlockUserHelper
 } from "../utils/adminHelpers.js";
 
 const authAdmin = asyncHandler(async (req, res) => {
@@ -204,17 +205,35 @@ const getAllUsers = asyncHandler(async (req, res) => {
 
 });
 
-const deleteUserData = asyncHandler(async (req, res) => {
+const blockUser = asyncHandler(async (req, res) => {
 
   const userId = req.body.userId;
 
-  const usersDeleteStatus = await deleteUser(userId);
+  const userBlockingProcess = await blockUserHelper(userId);
 
-  const responseMessage = usersDeleteStatus.message;
+  const responseMessage = userBlockingProcess.message;
 
-  if (usersDeleteStatus.success) {
+  if (userBlockingProcess.success) {
 
-    res.status(200).json({ message: responseMessage });
+    res.status(201).json({ message: responseMessage });
+
+  } else {
+
+    throw new BadRequestError(responseMessage);
+  }
+});
+
+const unBlockUser = asyncHandler(async (req, res) => {
+
+  const userId = req.body.userId;
+
+  const userUnblockingProcess = await unBlockUserHelper(userId);
+
+  const responseMessage = userUnblockingProcess.message;
+
+  if (userUnblockingProcess.success) {
+
+    res.status(201).json({ message: responseMessage });
 
   } else {
 
@@ -253,6 +272,7 @@ export {
   getAdminProfile,
   updateAdminProfile,
   getAllUsers,
-  deleteUserData,
+  blockUser,
+  unBlockUser,
   updateUserData,
 };
