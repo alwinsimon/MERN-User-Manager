@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    blocked: {
+        type: Boolean,
+        default: false
+    },
     profileImageName: {
         type: String
     }
@@ -55,6 +59,11 @@ userSchema.methods.matchPassword = async function (userProvidedPassword) {
 
     return validPassword;
 
+};
+
+// ============= Blocked Status Returning Function =============
+userSchema.methods.isBlocked = function () {
+    return this.blocked;
 };
 
 
