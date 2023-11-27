@@ -5,7 +5,8 @@ import {
     ADMIN_REGISTRATION_URL,
     ADMIN_PROFILE_URL,
     ADMIN_USERS_DATA_FETCH_URL,
-    ADMIN_DELETE_USER_URL,
+    ADMIN_BLOCK_USER_URL,
+    ADMIN_UNBLOCK_USER_URL,
     ADMIN_UPDATE_USER_URL
 } from '../utils/constants.js';
 
@@ -58,11 +59,20 @@ export const adminApiSlice = apiSlice.injectEndpoints({
             })
 
         }),
-        deleteUser: builder.mutation({
+        blockUser: builder.mutation({
             
             query: (data) => ({
-                url: ADMIN_DELETE_USER_URL,
-                method: 'DELETE',
+                url: ADMIN_BLOCK_USER_URL,
+                method: 'PATCH',
+                body: data
+            })
+
+        }),
+        unblockUser: builder.mutation({
+            
+            query: (data) => ({
+                url: ADMIN_UNBLOCK_USER_URL,
+                method: 'PATCH',
                 body: data
             })
 
@@ -89,7 +99,8 @@ export const {
     useAdminRegisterMutation,
     useUpdateAdminMutation,
     useGetUsersDataMutation,
-    useDeleteUserMutation,
+    useBlockUserMutation,
+    useUnblockUserMutation,
     useUpdateUserByAdminMutation
 
 } = adminApiSlice;

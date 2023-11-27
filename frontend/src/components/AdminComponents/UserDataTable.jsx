@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { Button, Modal, Table, Form as BootstrapForm } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { useDeleteUserMutation, useUpdateUserByAdminMutation } from "../../slices/adminApiSlice";
+import { useBlockUserMutation, useUnblockUserMutation, useUpdateUserByAdminMutation } from "../../slices/adminApiSlice";
 
 const UsersDataTable = ({ users }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [showConfirmation, setShowConfirmation] = useState(false); // State for the confirmation dialog
+
+  const [showBlockingConfirmation, setShowBlockingConfirmation] = useState(false); // State for the blocking confirmation dialog
+  const [showUnblockingConfirmation, setShowUnblockingConfirmation] = useState(false); // State for the unblocking confirmation dialog
+
   const [userIdToDelete, setUserIdToDelete] = useState(null); // Track the user ID to delete
+  const [userIdToBlock, setUserIdToBlock] = useState(null); // Track the user ID to block
+  const [userIdToUnblock, setUserIdToUnblock] = useState(null); // Track the user ID to unblock
 
   const [showUpdateModal, setShowUpdateModal] = useState(false); // State for the update modal
   const [userIdToUpdate, setUserIdToUpdate] = useState("");
@@ -23,18 +28,30 @@ const UsersDataTable = ({ users }) => {
       user.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const [deleteUser, { isLoading }] = useDeleteUserMutation();
+  const [blockUser, { isBlockingLoading }] = useBlockUserMutation();
+  const [unblockUser, { isUnblockingLoading }] = useUnblockUserMutation();
   const [updateUserByAdmin, { isLoading: isUpdating }] = useUpdateUserByAdminMutation();
 
-  const handleDelete = async () => {
-    try {
-      const responseFromApiCall = await deleteUser({ userId: userIdToDelete });
-      toast.success("User Deleted Successfully.");
-      setUserIdToDelete(null); // Clear the user ID to delete
-      setShowConfirmation(false); // Close the confirmation dialog
 
-      // Reload the page to reflect the updated data
-      window.location.reload();
+  const handleBlock = async () => {
+    try {
+      const responseFromApiCall = await blockUser({ userId: userIdToBlock });
+      toast.success("User Blocked Successfully.");
+      setUserIdToBlock(null); // Clear the user ID to block
+      setShowBlockingConfirmation(false); // Close the blocking confirmation dialog
+
+    } catch (err) {
+      toast.error(err?.data?.errors[0]?.message || err?.error);
+    }
+  };
+
+  const handleUnblock = async () => {
+    try {
+      const responseFromApiCall = await unblockUser({ userId: userIdToUnblock });
+      toast.success("User Unblocked Successfully.");
+      setUserIdToUnblock(null); // Clear the user ID to unblock
+      setShowUnblockingConfirmation(false); // Close the unblocking confirmation dialog
+
     } catch (err) {
       toast.error(err?.data?.errors[0]?.message || err?.error);
     }
@@ -75,7 +92,8 @@ const UsersDataTable = ({ users }) => {
             <th>Name</th>
             <th>Email</th>
             <th>Update</th>
-            <th>Delete</th>
+            <th>Block</th>
+            <th>Unblock</th>
           </tr>
         </thead>
         <tbody>
@@ -100,11 +118,24 @@ const UsersDataTable = ({ users }) => {
                   variant="danger"
                   className="mt-3"
                   onClick={() => {
-                    setUserIdToDelete(user._id); // Set the user ID to delete
-                    setShowConfirmation(true); // Open the confirmation dialog
+                    setUserIdToBlock(user._id);
+                    setShowBlockingConfirmation(true);
                   }}
                 >
-                  Delete
+                  Block
+                </Button>
+              </td>
+              <td>
+                <Button
+                  type="button"
+                  variant="success"
+                  className="mt-3"
+                  onClick={() => {
+                    setUserIdToUnblock(user._id);
+                    setShowUnblockingConfirmation(true);
+                  }}
+                >
+                  Unblock
                 </Button>
               </td>
             </tr>
@@ -113,7 +144,10 @@ const UsersDataTable = ({ users }) => {
       </Table>
 
       <BootstrapForm>
-        <BootstrapForm.Group className="mt-3" controlId="exampleForm.ControlInput1">
+        <BootstrapForm.Group
+          className="mt-3"
+          controlId="exampleForm.ControlInput1"
+        >
           <BootstrapForm.Label>Search users:</BootstrapForm.Label>
           <BootstrapForm.Control
             style={{ width: "500px" }}
@@ -125,18 +159,54 @@ const UsersDataTable = ({ users }) => {
         </BootstrapForm.Group>
       </BootstrapForm>
 
-      {/* Confirmation Dialog */}
-      <Modal show={showConfirmation} onHide={() => setShowConfirmation(false)}>
+      {/* Blocking Confirmation Dialog */}
+      <Modal
+        show={showBlockingConfirmation}
+        onHide={() => setShowBlockingConfirmation(false)}
+      >
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Deletion</Modal.Title>
+          <Modal.Title>Confirm Block</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this user?</Modal.Body>
+        <Modal.Body>Are you sure you want to block this user?</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowConfirmation(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setShowBlockingConfirmation(false)}
+          >
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleDelete} disabled={isLoading}>
-            {isLoading ? "Deleting..." : "Delete"}
+          <Button
+            variant="danger"
+            onClick={handleBlock}
+            disabled={isBlockingLoading}
+          >
+            {isBlockingLoading ? "Blocking..." : "Block"}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Un Blocking Confirmation Dialog */}
+      <Modal
+        show={showUnblockingConfirmation}
+        onHide={() => setShowUnblockingConfirmation(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Un-Block</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to Un-Block this user?</Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowUnblockingConfirmation(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="danger"
+            onClick={handleUnblock}
+            disabled={isUnblockingLoading}
+          >
+            {isBlockingLoading ? "Un-Blocking..." : "Un-Block"}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -153,9 +223,7 @@ const UsersDataTable = ({ users }) => {
               <BootstrapForm.Control
                 type="text"
                 value={userNameToUpdate}
-                onChange={(e) =>
-                    setUserNameToUpdate(e.target.value)
-                }
+                onChange={(e) => setUserNameToUpdate(e.target.value)}
               />
             </BootstrapForm.Group>
             <BootstrapForm.Group controlId="email">
@@ -163,9 +231,7 @@ const UsersDataTable = ({ users }) => {
               <BootstrapForm.Control
                 type="email"
                 value={userEmailToUpdate}
-                onChange={(e) =>
-                    setUserEmailToUpdate(e.target.value)
-                }
+                onChange={(e) => setUserEmailToUpdate(e.target.value)}
               />
             </BootstrapForm.Group>
           </BootstrapForm>
@@ -174,7 +240,11 @@ const UsersDataTable = ({ users }) => {
           <Button variant="secondary" onClick={() => setShowUpdateModal(false)}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleUpdate} disabled={isUpdating}>
+          <Button
+            variant="primary"
+            onClick={handleUpdate}
+            disabled={isUpdating}
+          >
             {isUpdating ? "Updating..." : "Update"}
           </Button>
         </Modal.Footer>
