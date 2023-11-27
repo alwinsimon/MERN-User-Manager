@@ -38,7 +38,7 @@ const LoginScreen = () => {
 
       navigate("/");
     } catch (err) {
-      toast.error(err?.data?.message || err?.error);
+      toast.error(err?.data?.errors[0]?.message || err?.error);
     }
   };
 

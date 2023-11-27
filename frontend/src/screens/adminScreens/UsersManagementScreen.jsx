@@ -29,11 +29,11 @@ const AdminHomeScreen = () => {
   
       fetchData();
 
-    } catch (error) {
+    } catch (err) {
 
-      toast.error(error);
+      toast.error( err?.data?.errors[0]?.message || err );
 
-      console.error("Error fetching users:", error);
+      console.error("Error fetching users:", err);
 
     }
 
