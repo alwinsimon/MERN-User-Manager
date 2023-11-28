@@ -103,7 +103,7 @@ ADMIN_REGISTRATION_KEY = your_adminSecret
 
 ## Dependencies
 
-- See [package.json](https://github.com/alwinsimon/Nodejs-Express-Authentication-Server/blob/main/package.json) for a detailed list of dependencies.
+- See back-end [package.json](https://github.com/alwinsimon/MERN-User-Manager/blob/v1/package.json) for a detailed list of dependencies.
 
 ## Contributing
 
