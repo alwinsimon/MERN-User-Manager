@@ -153,5 +153,104 @@
  *                 type: string
  *                 description: Error message.
  *             example:
- *               message: Admin already exists
+ *               message: Not Authorized.
+ */
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: User
+ *   description: User operations
+ */
+
+/**
+ * @swagger
+ * paths:
+ *   /api/v1/user:
+ *     post:
+ *       summary: Register a new user
+ *       tags: [User]
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - name
+ *                 - email
+ *                 - password
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   description: The name of the user.
+ *                 email:
+ *                   type: string
+ *                   description: Registered email of the user.
+ *                 password:
+ *                   type: string
+ *                   description: The password of the user.
+ *               example:
+ *                 name: John Smith
+ *                 email: john@example.com
+ *                 password: userPassword123
+ *
+ *   /api/v1/user/auth:
+ *     post:
+ *       summary: Authenticate user
+ *       tags: [User]
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 email:
+ *                   type: string
+ *                 password:
+ *                   type: string
+ *               example:
+ *                 email: user@example.com
+ *                 password: userPassword123
+ *
+ *   /api/v1/user/logout:
+ *     post:
+ *       summary: Logout user
+ *       tags: [User]
+ *
+ *   /api/v1/user/profile:
+ *     get:
+ *       summary: Get user profile
+ *       tags: [User]
+ *       security:
+ *         - cookieAuth: []
+ *     put:
+ *       summary: Update user profile
+ *       tags: [User]
+ *       security:
+ *         - cookieAuth: []
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           multipart/form-data:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 password:
+ *                   type: string
+ *                 profileImage:
+ *                   type: string
+ *                   format: binary
+ *               example:
+ *                 name: Updated John Smith
+ *                 email: updateduser@example.com
+ *                 password: newPassword123
+ *                 profileImage: <binary_data>
+ *
  */
