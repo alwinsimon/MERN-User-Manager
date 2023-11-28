@@ -17,6 +17,7 @@ import apiSpeedLimiter from "./config/api-rate-limiter/api-speed-limiter.js";
 import apiRateLimiter from "./config/api-rate-limiter/api-rate-limiter.js";
 import { getServerHealth } from "./controllers/generalController.js";
 import morganLogger from "./config/logger/HTTP-request-logger.js";
+import generateSwaggerDocs from "./config/api-documentation/swagger-config.js";
 
 // Express app configuration
 const app = express();
@@ -45,6 +46,10 @@ app.use(express.urlencoded({ extended: true })); // Form Data parser Middleware 
 //? ===================== General Routes =====================
 app.get("/health", getServerHealth); // Get server health information
 
+// Function to provide API Documentation from Swagger
+generateSwaggerDocs(app);
+// For API Documentation : GET method /api-docs
+// For API Documentation in JSON format : GET method /api-docs.json
 
 // Auth middleware to parse req.cookie and add req.currrentUser if a valid token is provided
 app.use(currentUser);
