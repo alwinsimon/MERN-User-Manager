@@ -9,6 +9,8 @@ import { app } from "./app.js";
 
 import connectDB from "./config/dbConfig.js";
 
+import logger from "./config/logger/winston-logger/loggerConfig.js";
+
 const startServer = () => {
   // Check if ENV Variables exist
   if (!process.env.APPLICATION_NAME) {
@@ -34,6 +36,13 @@ const startServer = () => {
   }
   // Server port configuration
   const PORT = process.env.PORT || 5000;
+
+  if (!logger) {
+    console.error("Logger not initialized.");
+    return;
+  }
+  // Log the server starting info
+  logger.info("Starting-up Server.");
 
   // ===================== Database Configuration =====================
   connectDB();
