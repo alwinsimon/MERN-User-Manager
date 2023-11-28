@@ -1,5 +1,5 @@
 import morgan from "morgan";
-import logger from "./winston-logger";
+import logger from "./winston-logger/loggerConfig.js";
 
 const morganLogger = () => {
   // Create a custom stream that writes to both Winston and console
