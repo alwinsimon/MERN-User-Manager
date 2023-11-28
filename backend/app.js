@@ -16,9 +16,13 @@ import v1APIs from "./routes/api-v1-routes.js";
 import apiSpeedLimiter from "./config/api-rate-limiter/api-speed-limiter.js";
 import apiRateLimiter from "./config/api-rate-limiter/api-rate-limiter.js";
 import { getServerHealth } from "./controllers/generalController.js";
+import morganLogger from "./config/logger/HTTP-request-logger.js";
 
 // Express app configuration
 const app = express();
+
+// Middleware to log all HTTP requests using morgan library
+app.use(morganLogger());
 
 // ===================== Setting Rate Limit for API Calls =====================
 // Speed limiter for api calls.
