@@ -51,7 +51,7 @@ const authAdmin = asyncHandler(async (req, res) => {
       email: admin.email,
     };
 
-    res.status(201).json(verifiedAdminData);
+    res.status(200).json(verifiedAdminData);
   }
 
   if (!admin || !passwordValid) {
