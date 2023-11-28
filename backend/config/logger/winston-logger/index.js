@@ -2,17 +2,17 @@
 
 import { Logger } from "winston";
 
-import devLogger from "./dev/devLogger";
-import prodLogger from "./prod/prodLogger";
+import developmentLoggerConfig from "./dev/devLoggerConfig";
+import productionLoggerConfig from "./prod/prodLoggerConfig";
 
 let logger = null;
 
 if (process.env.NODE_ENV === "development") {
-  logger = devLogger();
+  logger = developmentLoggerConfig();
 }
 
 if (process.env.NODE_ENV === "production") {
-  logger = prodLogger();
+  logger = productionLoggerConfig();
 }
 
 export default logger;

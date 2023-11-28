@@ -8,7 +8,7 @@ import { MongoDB } from "winston-mongodb";
 require("winston-mongodb");
 
 
-const devLogger = () => {
+const developmentLoggerConfig = () => {
   // Define the directory for log files
   const devLogDirectory = path.join(__dirname, "../../../../../logs/backend/dev");
 
@@ -45,8 +45,8 @@ const devLogger = () => {
   };
 
   // Create and return the logger
-  const logger = winston.createLogger(devLoggerConfig);
-  return logger;
+  const developmentServerlogger = winston.createLogger(devLoggerConfig);
+  return developmentServerlogger;
 };
 
-export default devLogger;
+export default developmentLoggerConfig;
