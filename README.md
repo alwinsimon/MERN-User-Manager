@@ -48,6 +48,7 @@ You can also access the API documentation in JSON format:
 
 ## Environment Variables
 
+```bash
 APPLICATION_NAME = MERN-User-Manager  
 PORT = 5000  
 NODE_ENV = development  
@@ -56,7 +57,7 @@ JWT_KEY = your_jwt_key_here
 JWT_TOKEN_DURATION = 30d  
 MONGO_DB_URI = your_mongodburi_here  
 ADMIN_REGISTRATION_KEY = your_adminSecret  
-
+```
 
 ## Getting Started
 
