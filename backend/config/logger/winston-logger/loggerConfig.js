@@ -18,7 +18,7 @@ const loggerConfiguration = {
   defaultMeta: { service: process.env.APPLICATION_NAME },
   transports: [
     // // Logger instance to log to console (terminal)
-    new winston.transports.Console(),
+    // new winston.transports.Console(),
 
     // // Logger instance to log errors to log file in logs directory.
     // new winston.transports.File({
