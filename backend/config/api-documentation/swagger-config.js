@@ -6,6 +6,7 @@ const options = {
     openapi: "3.0.0",
     info: {
       title: `${process.env.APPLICATION_NAME} Server API Documentation`,
+      description: "Basic documentation - WIP",
       version: "1.0.0",
     },
     servers: [
