@@ -5,7 +5,7 @@ import express from "express";
 
 // Custom Authentication middleware from my npm package.
 // Reference: https://www.npmjs.com/package/base-auth-handler
-import { requireAuth } from "base-auth-handler";
+import { requireAuth, validateRequest } from "base-auth-handler";
 
 import verifyUser from "../../middlewares/verifyUserMiddleware.js";
 
@@ -17,6 +17,7 @@ import {
   updateUserProfile,
 } from "../../controllers/userController.js";
 
+import { userSignUpDataValidation, userSignInDataValidation } from "./backendDataValidationConfig.js";
 import { multerUploadUserProfile } from "../../config/multerConfig.js";
 
 // ===================== Configuring Express Router =====================
@@ -26,9 +27,9 @@ const router = express.Router();
 
 //* ==================== Authentication Routes ====================
 
-router.post("/", registerUser);
+router.post("/", userSignUpDataValidation, validateRequest, registerUser);
 
-router.post("/auth", authUser);
+router.post("/auth", userSignInDataValidation, validateRequest, authUser);
 
 router.post("/logout", logoutUser);
 

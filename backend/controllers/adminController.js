@@ -209,6 +209,10 @@ const blockUser = asyncHandler(async (req, res) => {
 
   const userId = req.body.userId;
 
+  if (!userId) {
+    throw new BadRequestError("UserId not received in request - User blocking failed.");
+  }
+
   const userBlockingProcess = await blockUserHelper(userId);
 
   const responseMessage = userBlockingProcess.message;
@@ -226,6 +230,10 @@ const blockUser = asyncHandler(async (req, res) => {
 const unBlockUser = asyncHandler(async (req, res) => {
 
   const userId = req.body.userId;
+
+  if (!userId) {
+    throw new BadRequestError("UserId not received in request - User Un-blocking failed.");
+  }
 
   const userUnblockingProcess = await unBlockUserHelper(userId);
 
@@ -246,8 +254,8 @@ const updateUserData = asyncHandler(async (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
 
-  if (!userId) {
-    throw new BadRequestError("UserId not received in request - User update failed.");
+  if (!userId || !name || !email) {
+    throw new BadRequestError("User data not received in request - User update failed.");
   }
 
   const userData = { userId: userId, name: name, email: email };
