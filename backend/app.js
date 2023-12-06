@@ -1,6 +1,7 @@
 //* ================================================ Express App Configuration ================================================
 
 // ===================== Importing necessary modules =====================
+import path from "path";
 import express from "express";
 
 import cookieParser from "cookie-parser";
@@ -58,6 +59,37 @@ app.use(currentUser);
 //? ===================== API Routes Configuration =====================
 // =====================V1 APIs Routes Configuration =================
 app.use("/api/v1", v1APIs);
+
+
+//? ===================== Configuring Frontend for Production =====================
+
+if(process.env.NODE_ENV === 'production') {
+  
+  // Setting Frontend build directory as static directory
+  const __dirname = path.resolve();
+  const frontEndBuildDir = path.join(__dirname, 'frontend/dist');
+
+  app.use(express.static(frontEndBuildDir));
+
+  // ===================== Sending Index HTML page as response =====================
+  
+  const frontEndIndexPage = path.resolve(__dirname, 'frontend', 'dist', 'index.html');
+  
+  // Serve Home Page request
+  app.get('/', (req, res) => {
+
+    res.sendFile(frontEndIndexPage);
+
+  });
+
+  // Serve Admin Page request
+  app.get('/admin', (req, res) => {
+
+    res.sendFile(frontEndIndexPage);
+
+  });
+
+}
 
 
 //? ===================== Error handling configuration =====================

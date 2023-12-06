@@ -9,7 +9,10 @@
     "server": "nodemon backend/server.js",
     "client": "npm run dev --prefix frontend",
     "dev": " concurrently \"npm run server\" \"npm run client\" ",
-    "app": " concurrently \"npm run start\" \"npm run client\" "
+    "app": " concurrently \"npm run start\" \"npm run client\" ",
+    "install-dependencies": "npm install && cd frontend && npm install",
+    "build": "cd frontend && npm run build",
+    "production": "npx alwinsimon && npm run build && node backend/server.js"
   },
   "keywords": [],
   "author": "Dr. Alwin Simon",
